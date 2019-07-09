@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/jboss-eap-7/eap72-openshift
+FROM tomcat:8
 
 ADD test.war /tmp/
 
