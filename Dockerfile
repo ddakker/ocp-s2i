@@ -1,18 +1,11 @@
 FROM registry.access.redhat.com/jboss-eap-7/eap72-openshift
 
-#USER jboss
-USER 0
-#USER 185
+ADD test.war /tmp/
 
-ADD test.war /tmp
-RUN mkdir -p /opt/eap/standalone/deployments/test.war
-RUN cd /opt/eap/standalone/deployments/test.war && \
-    unzip /tmp/test.war && \
-    touch /opt/eap/standalone/deployments/test.war.dodeploy
+RUN mkdir -p /usr/local/tomcat/conf/Catalina/localhost/
+ADD ROOT.xml /usr/local/tomcat/conf/Catalina/localhost/
+#ADD contrib/mariadb-java-client-2.1.0.jar /usr/local/tomcat/lib/
 
-
-
-RUN chown -R jboss.root /opt/eap
-
-#USER jboss
-USER 185
+RUN mkdir -p /opt/apps/ROOT && \
+    unzip /tmp/test.war -d /opt/apps/ROOT && \
+    rm -rf /tmp/test.war
